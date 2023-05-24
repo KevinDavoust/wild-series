@@ -44,13 +44,14 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setSynopsis('Corentin Houssein débarque ches les grignoteurs de savouroche');
         $program->setCategory($this->getReference('category_Horreur'));
         $manager->persist($program);
+        $this->addReference('program_Gotaga', $program);
         $manager->flush();
     }
-
     public function getDependencies(): array
     {
         return [
             CategoryFixtures::class
         ];
     }
+
 }
