@@ -16,6 +16,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setSynopsis('Des zombies veulent manger Rick');
         $program->setCategory($this->getReference('category_Action'));
         $manager->persist($program);
+        $this->addReference('program_1', $program);
         $manager->flush();
 
         $program = new Program();
@@ -23,6 +24,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setSynopsis('Le roi des pirates, ce sera lui !');
         $program->setCategory($this->getReference('category_Aventure'));
         $manager->persist($program);
+        $this->addReference('program_2', $program);
         $manager->flush();
 
         $program = new Program();
@@ -30,6 +32,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setSynopsis('Cochon guerre boum boum avion');
         $program->setCategory($this->getReference('category_Animation'));
         $manager->persist($program);
+        $this->addReference('program_3', $program);
         $manager->flush();
 
         $program = new Program();
@@ -37,6 +40,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setSynopsis('mdr le hobbit petit bonhomme');
         $program->setCategory($this->getReference('category_Fantastique'));
         $manager->persist($program);
+        $this->addReference('program_4', $program);
         $manager->flush();
 
         $program = new Program();
@@ -44,7 +48,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setSynopsis('Corentin Houssein débarque ches les grignoteurs de savouroche');
         $program->setCategory($this->getReference('category_Horreur'));
         $manager->persist($program);
-        $this->addReference('program_Gotaga', $program);
+        $this->addReference('program_5', $program);
         $manager->flush();
     }
     public function getDependencies(): array
