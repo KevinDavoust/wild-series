@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\SeasonRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,13 +23,8 @@ class Season
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'season', targetEntity: Program::class)]
-    private Collection $program;
-
-    public function __construct()
-    {
-        $this->program = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'seasons')]
+    private ?Program $program = null;
 
     public function getId(): ?int
     {
@@ -74,32 +67,14 @@ class Season
         return $this;
     }
 
-    /**
-     * @return Collection<int, Program>
-     */
-    public function getProgram(): Collection
+    public function getProgram(): ?Program
     {
         return $this->program;
     }
 
-    public function addProgram(Program $program): self
+    public function setProgram(?Program $program): self
     {
-        if (!$this->program->contains($program)) {
-            $this->program->add($program);
-            $program->setSeason($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProgram(Program $program): self
-    {
-        if ($this->program->removeElement($program)) {
-            // set the owning side to null (unless already changed)
-            if ($program->getSeason() === $this) {
-                $program->setSeason(null);
-            }
-        }
+        $this->program = $program;
 
         return $this;
     }
