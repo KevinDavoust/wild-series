@@ -7,13 +7,18 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Factory;
+use Faker\Generator;
+use Faker\Provider;
 
 class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
 
-        $faker = Factory::create();
+        $faker = Factory::create('fr_FR');
+        $fakerr = new Generator();
+        $fakerr->addProvider( new Provider\pt_BR\Person($fakerr));
+
 
         for($program = 1; $program < 6; $program++) {
 
@@ -24,7 +29,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
                     $episode = new Episode();
                     $episode->setNumber($episodee);
                     $episode->setSeason($this->getReference('program_' . $program . '_season_' . $saison));
-                    $episode->setTitle($faker->word());
+                    $episode->setTitle($fakerr->name());
                     $episode->setSynopsis($faker->paragraphs(1, true));
                     $manager->persist($episode);
                     $this->addReference('program_' . $program . '_season_' . $saison . '_episode_' . $episodee, $episode);
