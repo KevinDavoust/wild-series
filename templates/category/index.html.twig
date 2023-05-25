@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Toutes les catégories :</h1>
 
+    <a href="{{ path('category_new') }}">Ajouter une nouvelle catégorie</a>
+
     <div>
         {% for category in categories %}
             <div>
