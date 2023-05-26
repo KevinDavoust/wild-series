@@ -18,6 +18,10 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $fakerr = new Generator();
         $fakerr->addProvider( new Provider\pt_BR\Person($fakerr));
+        $fakerBE = new Generator();
+        $fakerBE->addProvider(new Provider\fr_BE\Address($fakerBE));
+        $fakerBEP = new Generator();
+        $fakerBEP->addProvider(new Provider\fr_BE\Person($fakerBEP));
 
 
         for($program = 1; $program < 6; $program++) {
@@ -30,7 +34,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
                     $episode->setNumber($episodee);
                     $episode->setSeason($this->getReference('program_' . $program . '_season_' . $saison));
                     $episode->setTitle($fakerr->name());
-                    $episode->setSynopsis($faker->paragraphs(1, true));
+                    $episode->setSynopsis($fakerBEP->firstNameMale() . ' ' . $fakerBEP->lastName() . ' ' . $fakerBE->province() . ' ' . $fakerBE->cityName());
                     $manager->persist($episode);
                     $this->addReference('program_' . $program . '_season_' . $saison . '_episode_' . $episodee, $episode);
                 }
@@ -39,31 +43,6 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 
         }
         $manager->flush();
-        /*
-        $episode = new Episode();
-        $episode->setSeason($this->getReference('Gotaga_season1'));
-        $episode->setTitle('Episode 1');
-        $episode->setSynopsis('Début de l\'aventure pour le petit Corentin');
-        $episode->setNumber(1);
-        $manager->persist($episode);
-        $manager->flush();
-
-        $episode = new Episode();
-        $episode->setSeason($this->getReference('Gotaga_season1'));
-        $episode->setTitle('Episode 2');
-        $episode->setSynopsis('Suite de l\'aventure pour le petit Corentin');
-        $episode->setNumber(2);
-        $manager->persist($episode);
-        $manager->flush();
-
-        $episode = new Episode();
-        $episode->setSeason($this->getReference('Gotaga_season1'));
-        $episode->setTitle('Episode 3');
-        $episode->setSynopsis('Fin de l\'aventure pour le petit Corentin');
-        $episode->setNumber(3);
-        $manager->persist($episode);
-        $manager->flush();
-        */
     }
 
     public function getDependencies(): array
