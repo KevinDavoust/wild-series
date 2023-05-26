@@ -3,10 +3,17 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue</h1>
+    <div class="home-accueil">
+
+    {#<img class="beaubackground" src="/images/beaubackground.png" alt="">#}
     <img class="home-amogousse" src="/images/amongus.webp" alt=""/>
+        <h1 class="homeh1">cékoikonrogarde</h1>
    {# <p>{{ content.name }}</p>
     {{ content.profileIconId }}#}
-    {#<img src="http://ddragon.leagueoflegends.com/cdn/13.10.1/img/profileicon/{{ content.profileIconId }}.png" alt="">#}
-    <img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/DrMundo_3.jpg" alt="">
+
+        {#<img src="http://ddragon.leagueoflegends.com/cdn/13.10.1/img/profileicon/{{ content.profileIconId }}.png" alt="">#}
+    <div class="mundomundo">
+        <img class="wsmundo" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/DrMundo_{{ random }}.jpg" alt="">
+    </div>
+    </div>
 {% endblock %}

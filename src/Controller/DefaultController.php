@@ -11,6 +11,8 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(HttpClientInterface $client): Response
     {
+        $chiffre = [1,2,3,4,5];
+        $random = array_rand($chiffre);
 
         $response = $client->request(
             'GET',
@@ -26,9 +28,7 @@ class DefaultController extends AbstractController
         // $content = '{"id":521583, "name":"symfony-docs", ...}'
 
         $content = $response->toArray();
-        echo '<pre>';
-        //var_dump($content);
-        echo '</pre>';
+
 
 
         // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
@@ -36,6 +36,7 @@ class DefaultController extends AbstractController
         return $this->render('index.html.twig', [
             'website' => 'Wild Series',
             'content' => $content,
+            'random' => $random,
         ]);
     }
 
