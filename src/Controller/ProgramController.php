@@ -8,20 +8,24 @@ use App\Entity\Season;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use App\Form\ProgramType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ProgramRepository $programRepository): Response
+    public function index(ProgramRepository $programRepository, RequestStack $requestStack): Response
     {
         $programs = $programRepository->findAll();
+        $session = $requestStack->getSession();
+
 
         return $this->render('program/index.html.twig', [
             'website' => 'Wild Series',
@@ -43,6 +47,7 @@ class ProgramController extends AbstractController
         // Was the form submitted ?
         if ($form->isSubmitted()) {
             $programRepository->save($program, true);
+            $this->addFlash('success', 'The new program has been created');
 
             // Redirect to categories list
             return $this->redirectToRoute('program_index');
