@@ -9,7 +9,7 @@
                 <ul>
                     {% for program in programs %}
                     <li>
-                        <a href="{{ path('program_show',{id: program.id} ) }}"><h2>{{ program.id }} / {{ program.title }}</h2></a>
+                        <a href="{{ path('program_show',{slug: program.slug} ) }}"><h2>{{ program.id }} / {{ program.title }}</h2></a>
                         <p>{{ program.synopsis }}</p>
                     </li>
                         {% else %}
