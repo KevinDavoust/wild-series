@@ -8,9 +8,11 @@ use App\Entity\Season;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
 use App\Service\ProgramDuration;
+use PharIo\Manifest\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -36,7 +38,7 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new')]
-    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger): Response
+    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger, MailerInterface $mailer): Response
     {
         $program = new Program();
 
@@ -47,11 +49,22 @@ class ProgramController extends AbstractController
         $form->handleRequest($request);
 
         // Was the form submitted ?
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
             $programRepository->save($program, true);
             $this->addFlash('success', 'The new program has been created');
+
+            $photo = '/images/amongus.webp';
+
+            $email = (new \Symfony\Component\Mime\Email())
+                ->from($this->getParameter('mailer_from'))
+                ->to('your_email@example.com')
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program,
+                    'photo' => $photo]));
+
+            $mailer->send($email);
 
             // Redirect to categories list
             return $this->redirectToRoute('program_index');
@@ -62,23 +75,6 @@ class ProgramController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    /*#[Route('/show/{id<^[0-9]+$>}/', name: 'show', requirements: ['id'=>'\d+'], methods: ['GET'])]
-    public function show(Program $program, ProgramDuration $programDuration): Response
-    {
-
-        if (!$program) {
-            throw $this->createNotFoundException(
-                'No program with id : '.$program.' found in program\'s table.'
-            );
-        }
-
-
-        return $this->render('program/show.html.twig', [
-            'program' => $program,
-            'programDuration' => $programDuration->calculate($program),
-        ]);
-    }*/
 
     #[Route('/show/{slug}/', name: 'show', methods: ['GET'])]
     public function show(Program $program, ProgramDuration $programDuration): Response
