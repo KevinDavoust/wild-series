@@ -3,31 +3,31 @@
 namespace App\Controller;
 
 use App\Entity\Actor;
+use App\Form\ActorType;
 use App\Repository\ActorRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use App\Form\ProgramType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[Route('/actor', name: 'actor_')]
 class ActorController extends AbstractController
 {
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(ActorRepository $actorRepository, RequestStack $requestStack): Response
     {
         $actors = $actorRepository->findAll();
         $session = $requestStack->getSession();
-
 
         return $this->render('actor/index.html.twig', [
             'website' => 'Wild Series',
@@ -35,19 +35,58 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{id<^[0-9]+$>}/', name: 'show', requirements: ['id'=>'\d+'], methods: ['GET'])]
-    public function show(Actor $actor): Response
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    public function new(Request $request, ActorRepository $actorRepository): Response
     {
+        $actor = new Actor();
+        $form = $this->createForm(ActorType::class, $actor);
+        $form->handleRequest($request);
 
-        if (!$actor) {
-            throw $this->createNotFoundException(
-                'No actor with id : '.$actor.' found in program\'s table.'
-            );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $actorRepository->save($actor, true);
+
+            return $this->redirectToRoute('actor_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        return $this->renderForm('actor/new.html.twig', [
+            'actor' => $actor,
+            'form' => $form,
+        ]);
+    }
 
+    #[Route('/show/{id}', name: 'show', methods: ['GET'])]
+    public function show(Actor $actor): Response
+    {
         return $this->render('actor/show.html.twig', [
             'actor' => $actor,
         ]);
+    }
+
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Actor $actor, ActorRepository $actorRepository): Response
+    {
+        $form = $this->createForm(ActorType::class, $actor);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $actorRepository->save($actor, true);
+
+            return $this->redirectToRoute('actor_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('actor/edit.html.twig', [
+            'actor' => $actor,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Actor $actor, ActorRepository $actorRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$actor->getId(), $request->request->get('_token'))) {
+            $actorRepository->remove($actor, true);
+        }
+
+        return $this->redirectToRoute('actor_index', [], Response::HTTP_SEE_OTHER);
     }
 }
