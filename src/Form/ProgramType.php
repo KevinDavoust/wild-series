@@ -18,12 +18,15 @@ class ProgramType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('synopsis', TextType::class)
-            ->add('category', null, ['choice_label' => 'name'])
+            ->add('category', null, [
+                'choice_label' => 'name'
+            ])
             ->add('actors', EntityType::class, [
                 'class' => Actor::class,
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
+                'by_reference' => false,
             ])
             ->add('posterFile', VichFileType::class, [
                 'required'      => false,

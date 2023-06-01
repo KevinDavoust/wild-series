@@ -55,14 +55,11 @@ class ProgramController extends AbstractController
             $programRepository->save($program, true);
             $this->addFlash('success', 'The new program has been created');
 
-            $photo = '/images/amongus.webp';
-
             $email = (new \Symfony\Component\Mime\Email())
                 ->from($this->getParameter('mailer_from'))
                 ->to('your_email@example.com')
                 ->subject('Une nouvelle série vient d\'être publiée !')
-                ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program,
-                    'photo' => $photo]));
+                ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));
 
             $mailer->send($email);
 
