@@ -26,6 +26,19 @@
         </tbody>
     </table>
 
+    <ul>
+    {% for comment in comments %}
+        <li>
+            <p>{{ comment.author.email }} wrote :</p>
+            <p>{{ comment.comment }}</p>
+        </li>
+    </ul>
+    {% endfor %}
+
+    {% if app.user %}
+    {% include('comment/_form.html.twig') %}
+    {% endif %}
+
     <a href="{{ path('app_episode_index') }}">back to list</a>
 
     <a href="{{ path('app_episode_edit', {'slug': episode.slug}) }}">edit</a>
