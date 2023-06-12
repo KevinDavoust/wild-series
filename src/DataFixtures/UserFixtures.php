@@ -8,7 +8,6 @@ use App\Entity\User;
 use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-
 class UserFixtures extends Fixture
 {
     private UserPasswordHasherInterface $passwordHasher;
@@ -26,10 +25,9 @@ class UserFixtures extends Fixture
         );
         $user->setEmail('user@user.fr');
         $user->setPassword($hashedpassword);
-        $user->setRoles(['ROLE_CONTRIBUTOR']);
+        $user->setRoles(['ROLE_USER']);
 
         $manager->persist($user);
-        $this->addReference('contributor', $user);
 
 
         $admin = new User();

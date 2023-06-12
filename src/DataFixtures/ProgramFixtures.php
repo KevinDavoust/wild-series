@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Program;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -24,7 +23,6 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setSlug($this->slugger->slug($program->getTitle()));
         $program->setSynopsis('Des zombies veulent manger Rick');
         $program->setCategory($this->getReference('category_Action'));
-        $program->setOwner($this->getReference('contributor'));
         $manager->persist($program);
         $this->addReference('program_1', $program);
         $manager->flush();
@@ -34,7 +32,6 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setSlug($this->slugger->slug($program->getTitle()));
         $program->setSynopsis('Le roi des pirates, ce sera lui !');
         $program->setCategory($this->getReference('category_Aventure'));
-        $program->setOwner($this->getReference('contributor'));
         $manager->persist($program);
         $this->addReference('program_2', $program);
         $manager->flush();
@@ -69,8 +66,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            CategoryFixtures::class,
-            UserFixtures::class
+            CategoryFixtures::class
         ];
     }
 

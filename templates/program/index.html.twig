@@ -10,11 +10,6 @@
              <div>
                  <a href="{{ path("program_show", { slug: program.slug }) }}"><h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2></a>
                  <p>{{ program.synopsis }}</p>
-                 {#
-                 {% if is_granted("ROLE_ADMIN") %}
-                     <a href="{{ path('program_edit', { 'slug': program.slug} ) }}">Éditer</a>
-                 {%endif%}
-                 #}
              </div>
         {% else %}
         Aucune série trouvée
