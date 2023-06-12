@@ -5,7 +5,7 @@
 {% block body %}
     <div class="home-accueil">
 
-    {#<img class="beaubackground" src="/images/beaubackground.png" alt="">#}
+
     <img class="home-amogousse" src="/images/amongus.webp" alt=""/>
         <h1 class="homeh1" {{ stimulus_controller('symfony/ux-typed', {
             strings: ['I ❤ Symfony UX', 'Symfony UX is great', 'Symfony UX is easy'],
@@ -13,16 +13,16 @@
             startDelay: 300,
             backSpeed: 30,
             backDelay: 300,
-            loop: true,
             showCursor: true,
-            cursorChar: 'HAHAHAHA'
-        }) }}>></h1>
-   {# <p>{{ content.name }}</p>
-    {{ content.profileIconId }}#}
+            cursorChar: 'HAHAHAHA AMOGOUSSE',
+            loop: true,
+        }) }}>
+        </h1>
+
 
         {#<img src="http://ddragon.leagueoflegends.com/cdn/13.10.1/img/profileicon/{{ content.profileIconId }}.png" alt="">#}
-    {#<div class="mundomundo">
+    <div class="mundomundo">
         <img class="wsmundo" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/DrMundo_{{ random }}.jpg" alt="">
-    </div>#}
+    </div>
     </div>
 {% endblock %}

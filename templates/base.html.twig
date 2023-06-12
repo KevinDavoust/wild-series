@@ -14,13 +14,10 @@
 
     </head>
 
-    <body {{ stimulus_controller('theme symfony/ux-swup/swup', {
-        theme: 'slide',
-        animateHistoryBrowsing: true,
-    }) }}
+    <body {{ stimulus_controller('theme') }}
             {{ stimulus_target('theme', 'body') }}>
-
-
+    <div>
+    <div id="swup">
 
     {% block navbar %}
         {% include '_includes/navbar.html.twig' %}
@@ -35,16 +32,16 @@
     {% endfor %}
     {% endblock %}
 
-    <div id="swup">
+
 
         {% block body %}
-
         {% endblock %}
 
         {% block aside %}
     {{ component('last_episode') }}
         {% endblock %}
         </div>
+    </div>
 
 
     {% block javascripts %}

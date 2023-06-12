@@ -5,7 +5,17 @@
 {% block body %}
     <h1>Toutes les séries :</h1>
     <a href="{{ path('program_new') }}">Add a program</a>
-    <div>
+
+
+    <div id="program-search-form">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button>Search</button>
+        {{ form_end(form) }}
+    </div>
+
+
+    <div id="program-show">
         {% for program in programs %}
              <div>
                  <a href="{{ path("program_show", { slug: program.slug }) }}"><h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2></a>
@@ -15,4 +25,5 @@
         Aucune série trouvée
         {% endfor %}
     </div>
+
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
+use App\Form\SearchProgramType;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
 use App\Service\ProgramDuration;
@@ -21,19 +22,32 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ProgramRepository $programRepository, RequestStack $requestStack): Response
+    public function index(ProgramRepository $programRepository, RequestStack $requestStack, Request $request): Response
     {
-        $programs = $programRepository->findAll();
+
         $session = $requestStack->getSession();
+        $form = $this->createForm(SearchProgramType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData()['search'];
+            $programs = $programRepository->findLikeName($search);
+
+        } else {
+            $programs = $programRepository->findAll();
+        }
 
 
         return $this->render('program/index.html.twig', [
-            'website' => 'Wild Series',
             'programs' => $programs,
+            'form' => $form,
+
         ]);
     }
 
