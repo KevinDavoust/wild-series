@@ -15,10 +15,17 @@ a:hover{
 }
 a{
     text-decoration: none;
+    color: #0A8FB0;
 }
-
-h2 {
-
+p {
+    text-decoration: none;
+    color: #75F052;
+}
+li, td, th, h2{
+    color: #F96CF0;
+}
+h1 {
+    color: green;
 }
 body {
     background-color: #FFFFFF;
@@ -31,7 +38,7 @@ body {
 }
 
 nav {
-    background-color: #111111;
+    background-color: lightgrey;
 }
 
 

@@ -37,5 +37,11 @@
             <a href="{{ path('login') }}"> Se connecter</a>
         {% endif %}
 
+        <button data-action="theme#toggleDarkMode">Dark mode</button>
+        {#
+        PAREIL QUE
+        <button {{ stimulus_action('theme', 'toggleDarkMode') }}>Toggle dark mode</button>
+        #}
+
     </div>
 </nav>
