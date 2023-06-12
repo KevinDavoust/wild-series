@@ -1,0 +1,16 @@
+<div{{ attributes }}>
+    <!-- component html -->
+    <div class="episodescomponentshow">
+        <h2>Last 3 episodes</h2>
+        <ul>
+        {% for episode in this.episodes %}
+            <li>
+                {{ episode.title }} // {{ episode.duration }} min <br>
+                {{ episode.synopsis }}
+            </li>
+        {% endfor %}
+        </ul>
+
+
+    </div>
+</div>
