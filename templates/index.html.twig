@@ -7,7 +7,16 @@
 
     {#<img class="beaubackground" src="/images/beaubackground.png" alt="">#}
     <img class="home-amogousse" src="/images/amongus.webp" alt=""/>
-        <h1 class="homeh1">cékoikonrogarde</h1>
+        <h1 class="homeh1" {{ stimulus_controller('symfony/ux-typed', {
+            strings: ['I ❤ Symfony UX', 'Symfony UX is great', 'Symfony UX is easy'],
+            smartBackspace: true,
+            startDelay: 300,
+            backSpeed: 30,
+            backDelay: 300,
+            loop: true,
+            showCursor: true,
+            cursorChar: 'HAHAHAHA'
+        }) }}>></h1>
    {# <p>{{ content.name }}</p>
     {{ content.profileIconId }}#}
 
