@@ -52,6 +52,7 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
+            $program->setOwner($this->getUser());
             $programRepository->save($program, true);
             $this->addFlash('success', 'The new program has been created');
 
@@ -114,4 +115,19 @@ class ProgramController extends AbstractController
             'episode' => $episode
         ]);
     }
+
+/*
+    #[Route('/{slug}/edit', name: 'program_edit', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_home')]
+
+    public function edit(Request $request, Program $program, ProgramRepository $programRepository): Response
+    {
+        // Check wether the logged in user is the owner of the program
+        if ($this->getUser() !== $program->getOwner()) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw $this->createAccessDeniedException('Only the owner can edit the program!');
+        }
+        // ...
+    }
+    */
 }

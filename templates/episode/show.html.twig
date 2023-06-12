@@ -35,13 +35,15 @@
     </ul>
     {% endfor %}
 
-    {% if app.user %}
+    {% if is_granted("ROLE_CONTRIBUTOR")  %}
     {% include('comment/_form.html.twig') %}
     {% endif %}
 
     <a href="{{ path('app_episode_index') }}">back to list</a>
 
+    {% if app.user  %}
     <a href="{{ path('app_episode_edit', {'slug': episode.slug}) }}">edit</a>
 
     {{ include('episode/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}
