@@ -5,7 +5,9 @@
 {% block body %}
     <div class="media">
         <div class="media-body">
-            <h1 class="mt-0">{{ program.title }}</h1>
+            <h1 class="mt-0">{{ program.title }} <a href="{{ path('program_watchlist', {id: program.id})}}">
+                    <i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                </a></h1>
             <p>{{ program.synopsis }}</p>
             <p>Catégorie : {{ program.category.name }}</p>
             <p>Durée totale : {{ programDuration }}</p>

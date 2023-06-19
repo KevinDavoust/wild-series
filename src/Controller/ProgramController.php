@@ -8,7 +8,11 @@ use App\Entity\Season;
 use App\Form\SearchProgramType;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
+use App\Repository\UserRepository;
 use App\Service\ProgramDuration;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 use PharIo\Manifest\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -127,5 +131,23 @@ class ProgramController extends AbstractController
             'season' => $season,
             'episode' => $episode
         ]);
+    }
+
+    #[Route('/{id}/watchlist', name: 'watchlist', methods: ['GET', 'POST'])]
+    public function addToWatchlist(Program $program, UserRepository $userRepository): Response
+    {
+        /** @var  \App\Entity\User */
+        $user = $this->getUser();
+
+        if ($user->isInWatchlist($program)) {
+            $user->removeWatchlist($program);
+        } else {
+            $user->addWatchlist($program);
+        }
+
+        $userRepository->save($user, true);
+
+
+        return $this->redirectToRoute('program_show', ['slug' => $program->getSlug()]);
     }
 }
